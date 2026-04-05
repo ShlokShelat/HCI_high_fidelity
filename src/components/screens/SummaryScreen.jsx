@@ -1,13 +1,20 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import DoraemonMascot from '../ui/DoraemonMascot';
+import { ScrollReveal, FadeReveal } from '../ui/ScrollReveal';
+import { ClipWords } from '../ui/ClipReveal';
+import MagneticButton from '../ui/MagneticButton';
+import HoverCard, { FillButton } from '../ui/HoverCard';
+import { useLenis } from '../../hooks/useLenis';
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'];
 
 export default function SummaryScreen({ formData, onReset }) {
   const [celebrating, setCelebrating] = useState(false);
+  const scrollRef = useRef(null);
+  useLenis(scrollRef);
 
   const handleConfirm = () => {
     setCelebrating(true);
@@ -40,7 +47,7 @@ export default function SummaryScreen({ formData, onReset }) {
   ];
 
   return (
-    <div className="flex flex-col items-center w-full h-full relative overflow-y-auto" style={{ padding: '20px' }}>
+    <div ref={scrollRef} className="flex flex-col items-center w-full h-full overflow-y-auto" style={{ padding: '20px', scrollbarWidth: 'none' }}>
 
       {/* Celebration particles */}
       {celebrating && Array.from({ length: 20 }).map((_, i) => (
@@ -65,33 +72,27 @@ export default function SummaryScreen({ formData, onReset }) {
         />
       ))}
 
-      <motion.div
-        className="text-center mb-6"
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.8, type: 'spring' }}
-      >
-        <motion.div
-          animate={celebrating ? {
-            scale: [1, 1.2, 1],
-            rotate: [0, -10, 10, 0],
-          } : {}}
-          transition={{ duration: 0.5 }}
-        >
-          <DoraemonMascot size={100} mood="happy" />
-        </motion.div>
-        <motion.h1
-          className="hologram-text mt-3"
-          style={{ fontFamily: 'Orbitron, sans-serif', fontSize: '1.8rem', fontWeight: 900 }}
-          animate={celebrating ? { scale: [1, 1.05, 1] } : {}}
-          transition={{ duration: 0.5 }}
-        >
-          {celebrating ? '🎉 JUMP SUCCESSFUL!' : 'MISSION BRIEFING'}
-        </motion.h1>
-        <p style={{ color: 'rgba(0, 200, 255, 0.5)', fontFamily: 'Space Grotesk, sans-serif', fontSize: '14px', marginTop: '4px' }}>
-          {celebrating ? 'All systems nominal. Safe travels, Pilot!' : 'Review your temporal journey parameters'}
-        </p>
-      </motion.div>
+      <FadeReveal delay={0.1} direction="scale">
+        <div className="text-center mb-6">
+          <motion.div
+            animate={celebrating ? { scale:[1,1.2,1], rotate:[0,-10,10,0] } : {}}
+            transition={{ duration:0.5 }}
+          >
+            <DoraemonMascot size={100} mood="happy" />
+          </motion.div>
+          <ClipWords
+            text={celebrating ? '🎉 JUMP SUCCESSFUL!' : 'MISSION BRIEFING'}
+            tag="h1"
+            delay={0.2}
+            stagger={0.07}
+            className="hologram-text mt-3"
+            style={{ fontFamily:'Orbitron,sans-serif', fontSize:'1.8rem', fontWeight:900 }}
+          />
+          <p style={{ color:'rgba(0,200,255,0.5)', fontFamily:'Space Grotesk,sans-serif', fontSize:14, marginTop:4 }}>
+            {celebrating ? 'All systems nominal. Safe travels, Pilot!' : 'Review your temporal journey parameters'}
+          </p>
+        </div>
+      </FadeReveal>
 
       {/* Details grid */}
       <div className="w-full max-w-2xl">
