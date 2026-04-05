@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 import DoraemonMascot from '../ui/DoraemonMascot';
 import HologramFrame from '../ui/HologramFrame';
+import MagneticButton from '../ui/MagneticButton';
+import { RevealWords, RevealFade } from '../ui/TextReveal';
 
 export default function PilotIDScreen({ onNext, formData, setFormData }) {
   const [cardInserted, setCardInserted] = useState(false);
@@ -55,33 +57,34 @@ export default function PilotIDScreen({ onNext, formData, setFormData }) {
     <div className="flex flex-col items-center justify-center w-full h-full relative" style={{ padding: '20px' }}>
 
       {/* Header */}
-      <motion.div
-        className="text-center mb-6"
-        initial={{ y: -30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <div className="text-xs mb-1" style={{
-          fontFamily: 'Orbitron, sans-serif',
-          color: 'rgba(0, 200, 255, 0.6)',
-          letterSpacing: '0.3em',
-          textTransform: 'uppercase',
-        }}>
-          DORAEMON CORP. ⊕ TEMPORAL DIVISION
+      <div className="text-center mb-6">
+        <RevealFade delay={0.1}>
+          <div className="text-xs mb-1" style={{
+            fontFamily: 'Orbitron, sans-serif',
+            color: 'rgba(0, 200, 255, 0.6)',
+            letterSpacing: '0.3em',
+            textTransform: 'uppercase',
+          }}>
+            DORAEMON CORP. ⊕ TEMPORAL DIVISION
+          </div>
+        </RevealFade>
+        <div style={{ overflow: 'hidden' }}>
+          <motion.h1
+            className="hologram-text"
+            style={{ fontFamily: 'Orbitron, sans-serif', fontSize: '2.2rem', fontWeight: '900', letterSpacing: '0.05em', lineHeight: 1.1 }}
+            initial={{ y: '100%', opacity: 0 }}
+            animate={{ y: '0%', opacity: 1 }}
+            transition={{ delay: 0.25, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
+            TIME MACHINE
+          </motion.h1>
         </div>
-        <h1 className="hologram-text" style={{
-          fontFamily: 'Orbitron, sans-serif',
-          fontSize: '2.2rem',
-          fontWeight: '900',
-          letterSpacing: '0.05em',
-          lineHeight: 1.1,
-        }}>
-          TIME MACHINE
-        </h1>
-        <div className="text-xs mt-1" style={{ color: 'rgba(0, 200, 255, 0.5)', fontFamily: 'Orbitron, sans-serif', letterSpacing: '0.2em' }}>
-          v22.02.2112 — PILOT AUTHENTICATION
-        </div>
-      </motion.div>
+        <RevealFade delay={0.5}>
+          <div className="text-xs mt-1" style={{ color: 'rgba(0, 200, 255, 0.5)', fontFamily: 'Orbitron, sans-serif', letterSpacing: '0.2em' }}>
+            v22.02.2112 — PILOT AUTHENTICATION
+          </div>
+        </RevealFade>
+      </div>
 
       <div className="w-full max-w-2xl flex gap-5 items-start">
 
@@ -324,23 +327,19 @@ export default function PilotIDScreen({ onNext, formData, setFormData }) {
               </div>
 
               {/* Proceed button */}
-              <motion.button
+              <MagneticButton
                 className="w-full mt-5 py-4 rounded-xl font-bold relative overflow-hidden"
+                data-cursor="ENGAGE"
                 style={{
                   fontFamily: 'Orbitron, sans-serif',
                   fontSize: '14px',
                   letterSpacing: '0.2em',
-                  background: 'linear-gradient(135deg, rgba(0, 90, 142, 0.8), rgba(0, 144, 208, 0.8))',
-                  border: '1px solid rgba(0, 200, 255, 0.6)',
+                  background: 'linear-gradient(135deg, rgba(0,90,142,0.8), rgba(0,144,208,0.8))',
+                  border: '1px solid rgba(0,200,255,0.6)',
                   color: '#00FFFF',
-                  boxShadow: '0 0 30px rgba(0, 200, 255, 0.3)',
-                  cursor: 'pointer',
+                  boxShadow: '0 0 30px rgba(0,200,255,0.3)',
+                  cursor: 'none',
                 }}
-                whileHover={{
-                  boxShadow: '0 0 50px rgba(0, 200, 255, 0.6)',
-                  background: 'linear-gradient(135deg, rgba(0, 110, 162, 0.9), rgba(0, 164, 228, 0.9))',
-                }}
-                whileTap={{ scale: 0.98 }}
                 onClick={handleNext}
               >
                 <motion.div
@@ -350,7 +349,7 @@ export default function PilotIDScreen({ onNext, formData, setFormData }) {
                   transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
                 />
                 ▶ INITIATE TIME JUMP
-              </motion.button>
+              </MagneticButton>
             </div>
           </HologramFrame>
         </motion.div>

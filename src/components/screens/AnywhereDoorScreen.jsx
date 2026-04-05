@@ -4,6 +4,8 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaf
 import L from 'leaflet';
 import { toast } from 'sonner';
 import 'leaflet/dist/leaflet.css';
+import MagneticButton from '../ui/MagneticButton';
+import { RevealWords, RevealFade } from '../ui/TextReveal';
 
 // Fix leaflet default icon
 delete L.Icon.Default.prototype._getIconUrl;
@@ -352,38 +354,35 @@ export default function AnywhereDoorScreen({ onNext, onBack, formData, setFormDa
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <motion.button
+        <MagneticButton
           className="px-6 py-3 rounded-xl text-sm"
+          data-cursor="BACK"
           style={{
             fontFamily: 'Orbitron, sans-serif',
-            background: 'rgba(0, 12, 40, 0.7)',
-            border: '1px solid rgba(0, 200, 255, 0.3)',
-            color: 'rgba(0, 200, 255, 0.7)',
-            cursor: 'pointer',
+            background: 'rgba(0,12,40,0.7)',
+            border: '1px solid rgba(0,200,255,0.3)',
+            color: 'rgba(0,200,255,0.7)',
+            cursor: 'none',
             letterSpacing: '0.1em',
           }}
-          whileHover={{ background: 'rgba(0, 12, 40, 0.9)', borderColor: 'rgba(0, 200, 255, 0.6)' }}
-          whileTap={{ scale: 0.97 }}
           onClick={onBack}
         >
           ◀ BACK
-        </motion.button>
-        <motion.button
+        </MagneticButton>
+        <MagneticButton
           className="flex-1 py-3 rounded-xl font-bold relative overflow-hidden"
+          data-cursor={selected ? 'CONFIRM' : ''}
           style={{
             fontFamily: 'Orbitron, sans-serif',
             fontSize: '14px',
             letterSpacing: '0.2em',
-            background: selected
-              ? 'linear-gradient(135deg, rgba(0, 90, 142, 0.8), rgba(0, 144, 208, 0.8))'
-              : 'rgba(0, 12, 40, 0.6)',
-            border: `1px solid ${selected ? 'rgba(0, 200, 255, 0.6)' : 'rgba(0, 200, 255, 0.2)'}`,
-            color: selected ? '#00FFFF' : 'rgba(0, 200, 255, 0.3)',
-            boxShadow: selected ? '0 0 30px rgba(0, 200, 255, 0.3)' : 'none',
-            cursor: 'pointer',
+            background: selected ? 'linear-gradient(135deg,rgba(0,90,142,0.8),rgba(0,144,208,0.8))' : 'rgba(0,12,40,0.6)',
+            border: `1px solid ${selected ? 'rgba(0,200,255,0.6)' : 'rgba(0,200,255,0.2)'}`,
+            color: selected ? '#00FFFF' : 'rgba(0,200,255,0.3)',
+            boxShadow: selected ? '0 0 30px rgba(0,200,255,0.3)' : 'none',
+            cursor: 'none',
+            transition: 'all 0.3s',
           }}
-          whileHover={selected ? { boxShadow: '0 0 50px rgba(0, 200, 255, 0.6)' } : {}}
-          whileTap={{ scale: 0.98 }}
           onClick={handleNext}
         >
           {selected && (
@@ -395,7 +394,7 @@ export default function AnywhereDoorScreen({ onNext, onBack, formData, setFormDa
             />
           )}
           SET TEMPORAL COORDINATES ▶
-        </motion.button>
+        </MagneticButton>
       </motion.div>
     </div>
   );
